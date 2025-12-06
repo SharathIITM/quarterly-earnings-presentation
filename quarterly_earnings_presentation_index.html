@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quarterly Earnings — Interactive Report (RevealJS)</title>
+
+  <!-- Reveal.js CSS (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme">
+
+  <!-- Optional: Highlight.js theme (for code) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.8.0/styles/default.min.css">
+
+  <style>
+    /* Custom styling */
+    .reveal { font-family: Inter, Arial, sans-serif; }
+    .chart { height: 360px; margin: 8px 0; }
+    .small-muted { font-size: 0.8rem; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title slide -->
+      <section>
+        <h1>Quarterly Earnings — Q4</h1>
+        
+        <p class="small-muted">Interactive technical report (RevealJS)</p>
+        <p>Contact: <strong>22f2001638@ds.study.iitm.ac.in</strong></p>
+        <aside class="notes">Start by greeting stakeholders. Mention the interactive elements: live charts, code snippet, and math formulas.</aside>
+      </section>
+
+      <!-- Markdown slide (required) -->
+      <section data-markdown>
+        <textarea data-template>
+## Executive Summary (Markdown)
+
+- **Revenue:** +6.2% QoQ
+- **Net Income:** +3.8% QoQ
+
+---
+
+### Highlights
+
+1. Cost optimizations delivered run-rate improvements.
+2. Product A grew 14% YoY.
+
+
+a small code example is shown in the next slide.
+        </textarea>
+      </section>
+
+      <!-- Animated fragments -->
+      <section>
+        <h2>Key Drivers</h2>
+        <ul>
+          <li class="fragment">Demand recovery in Region APAC</li>
+          <li class="fragment">Pricing improvements (Product A)</li>
+          <li class="fragment fade-up">Lower logistics cost due to routing optimization</li>
+        </ul>
+        <aside class="notes">Talk through each fragment. Use keyboard or click to reveal sequentially.</aside>
+      </section>
+
+      <!-- Code sample with syntax highlighting -->
+      <section>
+        <h2>Data Extraction — Example</h2>
+        <pre><code class="language-python"># Load results and compute EBITDA margin
+import pandas as pd
+
+def compute_ebitda_margin(df):
+    df['ebitda'] = df['revenue'] - df['cost_of_goods_sold'] - df['opex']
+    df['ebitda_margin'] = df['ebitda'] / df['revenue'] * 100
+    return df[['revenue','ebitda','ebitda_margin']]
+
+# Example usage
+# df = pd.read_csv('quarterly.csv')
+# print(compute_ebitda_margin(df).head())
+</code></pre>
+        <aside class="notes">Explain data pipeline: ingestion -> transform -> compute KPI (EBITDA margin).</aside>
+      </section>
+
+      <!-- Math slide -->
+      <section>
+        <h2>Financial Formula</h2>
+        <p>Present value of cash flows (discounted cash flow):</p>
+        \[PV = \sum_{t=1}^{T} \frac{CF_t}{(1+r)^t} + \frac{TV}{(1+r)^T}\]
+        <aside class="notes">Explain variables: CF_t = cash flow at time t, r = discount rate, TV = terminal value.</aside>
+      </section>
+
+      <!-- Live demo / iframe (lazy loaded) -->
+      <section id="chart-slide">
+        <h2>Interactive Chart (placeholder)</h2>
+        <div id="chart" class="chart">(Chart will render here)</div>
+        <p class="small-muted fragment">Tip: charts are initialized when this slide becomes active.</p>
+        <aside class="notes">When presenting, run through revenue breakdown and hover over points to show values.</aside>
+      </section>
+
+      <!-- Speaker notes and closing -->
+      <section>
+        <h2>Next Steps & Actions</h2>
+        <ol>
+          <li class="fragment">Approve FY26 operating plan</li>
+          <li class="fragment">Allocate R&D budget to Product A</li>
+          <li class="fragment">Confirm hiring freeze exceptions</li>
+        </ol>
+        <p class="small-muted">Contact: <strong>22f2001638@ds.study.iitm.ac.in</strong></p>
+        <aside class="notes">Close with clear asks and follow-up owner names.</aside>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js + Plugins (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/math/math.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+
+  <!-- MathJax for equations -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Example: small chart rendering using plain JS (no external libs required) -->
+  <script>
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0.04,
+      controls: true,
+      progress: true,
+      history: true,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealHighlight, RevealMath, RevealNotes ]
+    });
+
+    // Lightweight example chart (draws a simple SVG line)
+    function renderChart() {
+      const container = document.getElementById('chart');
+      if (!container || container.dataset.rendered) return;
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 600 200');
+      svg.style.width = '100%';
+      svg.style.height = '100%';
+
+      const data = [80, 95, 110, 120, 135, 150, 140]; // sample revenue points
+      const max = Math.max(...data);
+      const points = data.map((d,i) => `${(i/(data.length-1))*580 + 10},${180 - (d/max)*160}`).join(' ');
+
+      const poly = document.createElementNS(svgNS, 'polyline');
+      poly.setAttribute('points', points);
+      poly.setAttribute('fill', 'none');
+      poly.setAttribute('stroke', '#2b7cff');
+      poly.setAttribute('stroke-width', '3');
+      svg.appendChild(poly);
+
+      // axes
+      const axis = document.createElementNS(svgNS, 'line');
+      axis.setAttribute('x1', '10'); axis.setAttribute('y1', '180');
+      axis.setAttribute('x2', '590'); axis.setAttribute('y2', '180');
+      axis.setAttribute('stroke', '#ccc'); axis.setAttribute('stroke-width', '1');
+      svg.appendChild(axis);
+
+      container.appendChild(svg);
+      container.dataset.rendered = '1';
+    }
+
+    // Render chart when slide becomes active
+    Reveal.addEventListener('slidechanged', function(event) {
+      if (event.currentSlide && event.currentSlide.id === 'chart-slide') {
+        renderChart();
+      }
+    });
+
+    // Also render if the first loaded slide is the chart slide
+    Reveal.addEventListener('ready', function(event) {
+      if (event.currentSlide && event.currentSlide.id === 'chart-slide') renderChart();
+    });
+  </script>
+</body>
+</html>
